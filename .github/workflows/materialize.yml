@@ -1,0 +1,63 @@
+name: materialize
+
+# Agent ingestion path: turn git blobs that were already uploaded through the
+# API into one GitHub-signed commit on a target branch. Used when the authoring
+# session can upload blobs but cannot run git or sign commits itself.
+# The manifest is one path=blobsha line per file.
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: One path=blobsha per line
+        type: string
+        required: true
+      branch:
+        description: Target branch for the commit
+        type: string
+        default: main
+      message:
+        description: Commit headline
+        type: string
+        default: "chore: materialize files from uploaded blobs"
+      body:
+        description: Commit body
+        type: string
+        default: |
+          Files were authored by Salem (Coven familiar) for Val Alexander and
+          uploaded as git blobs; this workflow turned them into a signed commit
+          because the authoring session had no local git access.
+
+          Co-Authored-By: Salem <salem@opencoven.ai>
+          Coven-Familiar: salem
+          Coven-Harness: claude-code / claude-fable-5-1
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MANIFEST: ${{ inputs.manifest }}
+      TARGET: ${{ inputs.branch }}
+      MESSAGE: ${{ inputs.message }}
+      BODY: ${{ inputs.body }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - name: Fetch blobs into the working tree
+        run: |
+          printf '%s\n' "${MANIFEST}" | while IFS='=' read -r path sha; do
+            [ -n "${path}" ] || continue
+            mkdir -p "$(dirname "${path}")"
+            gh api "repos/${GITHUB_REPOSITORY}/git/blobs/${sha}" --jq .content | base64 -d > "${path}"
+            echo "wrote ${path} (${sha})"
+          done
+      - name: Commit on the target branch through GraphQL (GitHub-signed)
+        run: |
+          FILES=$(printf '%s\n' "${MANIFEST}" | cut -d= -f1 | tr '\n' ' ')
+          go run ./cmd/publish -repo "${GITHUB_REPOSITORY}" -branch "${TARGET}" -message "${MESSAGE}" -body "${BODY}" ${FILES}
