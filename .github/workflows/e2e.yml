@@ -108,12 +108,16 @@ jobs:
           sudo apt-get install -y --no-install-recommends xvfb mesa-vulkan-drivers libgl1-mesa-dri libvulkan1 python3
           curl -fsSL -o proton.tar.gz https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${PROTON_TAG}/${PROTON_TAG}-x86_64.tar.gz
           mkdir -p proton && tar -xzf proton.tar.gz -C proton
+          ls -la proton
+          PROTON_BIN=$(find proton -maxdepth 3 -type f -name proton | head -1)
+          echo "proton script: ${PROTON_BIN}"
+          test -n "${PROTON_BIN}"
           export STEAM_COMPAT_DATA_PATH=${RUNNER_TEMP}/proton-data
           export STEAM_COMPAT_CLIENT_INSTALL_PATH=${RUNNER_TEMP}/steam
           mkdir -p "${STEAM_COMPAT_DATA_PATH}" "${STEAM_COMPAT_CLIENT_INSTALL_PATH}" results
           OUT="Z:${PWD}/results"
-          xvfb-run -a python3 proton/${PROTON_TAG}/proton run dist/probe.exe -workarounds none -out "${OUT}/proton-before.json" -text
-          xvfb-run -a python3 proton/${PROTON_TAG}/proton run dist/probe.exe -workarounds all -out "${OUT}/proton.json" -text
+          xvfb-run -a python3 "${PROTON_BIN}" run dist/probe.exe -workarounds none -out "${OUT}/proton-before.json" -text
+          xvfb-run -a python3 "${PROTON_BIN}" run dist/probe.exe -workarounds all -out "${OUT}/proton.json" -text
           echo "=== BEGIN results/proton.json ==="
           cat results/proton.json
           echo "=== END results/proton.json ==="
