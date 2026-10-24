@@ -1,0 +1,39 @@
+#!/bin/sh
+# Pre-commit: refuse to commit secrets.
+# Uses gitleaks when installed; otherwise falls back to a pattern scan.
+# Install with: make hooks   (sets core.hooksPath to .githooks)
+set -u
+
+if command -v gitleaks >/dev/null 2>&1; then
+  if gitleaks protect --staged --redact --no-banner; then
+    exit 0
+  fi
+  echo "pre-commit: gitleaks found a possible secret in staged changes; commit blocked." >&2
+  echo "pre-commit: for a false positive, add a gitleaks:allow comment or a .gitleaksignore entry." >&2
+  exit 1
+fi
+
+echo "pre-commit: gitleaks not installed; using the built-in pattern scan (install gitleaks for better coverage)." >&2
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+if [ -z "${staged}" ]; then
+  exit 0
+fi
+
+status=0
+for f in ${staged}; do
+  case "${f}" in
+    .env|.env.*|*.pem|*.key|*.p12|*.pfx|*id_rsa*|*id_ed25519*|*.keystore)
+      echo "pre-commit: refusing credential-like file: ${f}" >&2
+      status=1
+      ;;
+  esac
+done
+
+pattern='AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{22,}|sk-[A-Za-z0-9_-]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|AIza[0-9A-Za-z_-]{35}|-----BEGIN [A-Z ]*PRIVATE KEY-----|(password|passwd|secret|api[_-]?key|access[_-]?token)[[:space:]]*[:=][[:space:]]*[A-Za-z0-9/+_-]{12,}'
+if git diff --cached -U0 -- ${staged} | grep -E '^\+' | grep -Eiq "${pattern}"; then
+  echo "pre-commit: possible secret in staged diff (pattern scan); commit blocked. Offending lines (redacted):" >&2
+  git diff --cached -U0 -- ${staged} | grep -E '^\+' | grep -Ein "${pattern}" | sed -E 's/([A-Za-z0-9\/+_-]{6})[A-Za-z0-9\/+_-]{6,}/\1.../g' >&2
+  status=1
+fi
+
+exit ${status}
