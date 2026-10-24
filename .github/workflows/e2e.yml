@@ -159,4 +159,5 @@ jobs:
       - if: github.event_name == 'workflow_dispatch' && inputs.publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: go run ./cmd/publish -repo "${GITHUB_REPOSITORY}" -branch "${GITHUB_REF_NAME}" -message "results: e2e run ${GITHUB_RUN_ID} (Windows, Wine, Proton)" -body "Automated by .github/workflows/e2e.yml, run ${GITHUB_RUN_ID}." results/windows-before.json results/windows.json results/wine-before.json results/wine.json results/proton-before.json results/proton.json docs/COMPARISON-REPORT.md docs/FIX-BEFORE-AFTER.md
+        run: |
+          go run ./cmd/publish -repo "${GITHUB_REPOSITORY}" -branch "${GITHUB_REF_NAME}" -message "results: e2e run ${GITHUB_RUN_ID} (Windows, Wine, Proton)" -body "Automated by .github/workflows/e2e.yml, run ${GITHUB_RUN_ID}." results/windows-before.json results/windows.json results/wine-before.json results/wine.json results/proton-before.json results/proton.json docs/COMPARISON-REPORT.md docs/FIX-BEFORE-AFTER.md
