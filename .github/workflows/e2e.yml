@@ -1,0 +1,162 @@
+name: e2e
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: [results/**, docs/COMPARISON-REPORT.md, docs/FIX-BEFORE-AFTER.md]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Commit results and reports back to the branch
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  PROTON_TAG: GE-Proton11-11
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - run: go vet ./... && GOOS=windows GOARCH=amd64 go vet -unsafeptr=false ./...
+      - run: go test ./...
+      - run: |
+          mkdir -p dist
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o dist/probe.exe ./cmd/probe
+          go build -trimpath -o dist/compare ./cmd/compare
+          sha256sum dist/probe.exe | tee dist/probe.exe.sha256
+      - uses: actions/upload-artifact@v7
+        with:
+          name: probe-bin
+          path: dist/
+          if-no-files-found: error
+
+  run-windows:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: probe-bin
+          path: dist
+      - shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force results | Out-Null
+          .\dist\probe.exe -workarounds none -out results\windows-before.json -text
+          .\dist\probe.exe -workarounds all -out results\windows.json -text
+          Write-Host "=== BEGIN results/windows.json ==="
+          Get-Content results\windows.json
+          Write-Host "=== END results/windows.json ==="
+      - uses: actions/upload-artifact@v7
+        with:
+          name: results-windows
+          path: results/
+
+  run-wine:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      WINEDEBUG: -all
+      WINEDLLOVERRIDES: winemenubuilder.exe=d;mscoree=d;mshtml=d
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: probe-bin
+          path: dist
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends wine wine64 xvfb mesa-vulkan-drivers libgl1-mesa-dri libvulkan1
+          wine --version
+          export WINEPREFIX=${RUNNER_TEMP}/wine-pfx
+          xvfb-run -a wineboot -u
+          wineserver -w
+          mkdir -p results
+          OUT="Z:${PWD}/results"
+          xvfb-run -a wine dist/probe.exe -workarounds none -out "${OUT}/wine-before.json" -text
+          xvfb-run -a wine dist/probe.exe -workarounds all -out "${OUT}/wine.json" -text
+          wineserver -w
+          echo "=== BEGIN results/wine.json ==="
+          cat results/wine.json
+          echo "=== END results/wine.json ==="
+      - uses: actions/upload-artifact@v7
+        with:
+          name: results-wine
+          path: results/
+
+  run-proton:
+    needs: build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      WINEDEBUG: -all
+      PROTON_LOG: 0
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: probe-bin
+          path: dist
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends xvfb mesa-vulkan-drivers libgl1-mesa-dri libvulkan1 python3
+          curl -fsSL -o proton.tar.gz https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${PROTON_TAG}/${PROTON_TAG}-x86_64.tar.gz
+          mkdir -p proton && tar -xzf proton.tar.gz -C proton
+          export STEAM_COMPAT_DATA_PATH=${RUNNER_TEMP}/proton-data
+          export STEAM_COMPAT_CLIENT_INSTALL_PATH=${RUNNER_TEMP}/steam
+          mkdir -p "${STEAM_COMPAT_DATA_PATH}" "${STEAM_COMPAT_CLIENT_INSTALL_PATH}" results
+          OUT="Z:${PWD}/results"
+          xvfb-run -a python3 proton/${PROTON_TAG}/proton run dist/probe.exe -workarounds none -out "${OUT}/proton-before.json" -text
+          xvfb-run -a python3 proton/${PROTON_TAG}/proton run dist/probe.exe -workarounds all -out "${OUT}/proton.json" -text
+          echo "=== BEGIN results/proton.json ==="
+          cat results/proton.json
+          echo "=== END results/proton.json ==="
+      - uses: actions/upload-artifact@v7
+        with:
+          name: results-proton
+          path: results/
+          if-no-files-found: warn
+
+  compare:
+    needs: [run-windows, run-wine, run-proton]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: results-*
+          path: results
+          merge-multiple: true
+      - run: |
+          ls -l results || true
+          go run ./cmd/compare -allow-missing -title "Wine Compatibility Probe: Windows vs Wine vs Proton" -out docs/COMPARISON-REPORT.md windows=results/windows.json wine=results/wine.json proton=results/proton.json
+          go run ./cmd/compare -allow-missing -title "Fix: version detection, before vs after" -out docs/FIX-BEFORE-AFTER.md windows-before=results/windows-before.json windows-after=results/windows.json wine-before=results/wine-before.json wine-after=results/wine.json proton-before=results/proton-before.json proton-after=results/proton.json
+          cat docs/COMPARISON-REPORT.md >> "${GITHUB_STEP_SUMMARY}"
+          echo "=== BEGIN docs/COMPARISON-REPORT.md ==="
+          cat docs/COMPARISON-REPORT.md
+          echo "=== END docs/COMPARISON-REPORT.md ==="
+          echo "=== BEGIN docs/FIX-BEFORE-AFTER.md ==="
+          cat docs/FIX-BEFORE-AFTER.md
+          echo "=== END docs/FIX-BEFORE-AFTER.md ==="
+      - uses: actions/upload-artifact@v7
+        with:
+          name: reports
+          path: |
+            docs/COMPARISON-REPORT.md
+            docs/FIX-BEFORE-AFTER.md
+      - if: github.event_name == 'workflow_dispatch' && inputs.publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: go run ./cmd/publish -repo "${GITHUB_REPOSITORY}" -branch "${GITHUB_REF_NAME}" -message "results: e2e run ${GITHUB_RUN_ID} (Windows, Wine, Proton)" -body "Automated by .github/workflows/e2e.yml, run ${GITHUB_RUN_ID}." results/windows-before.json results/windows.json results/wine-before.json results/wine.json results/proton-before.json results/proton.json docs/COMPARISON-REPORT.md docs/FIX-BEFORE-AFTER.md
