@@ -1,0 +1,15 @@
+# Build output
+dist/
+*.exe
+*.syso
+
+# Local scratch
+.worktrees/
+*.log
+.DS_Store
+
+# Never commit local secrets
+.env
+.env.*
+*.pem
+*.key
