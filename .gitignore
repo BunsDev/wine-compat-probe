@@ -8,6 +8,16 @@ dist/
 *.log
 .DS_Store
 
+# Downloaded runtimes and prefixes (scripts/run-proton.sh, CI)
+proton/
+proton.tar.gz
+.proton-data/
+.steam/
+.wine-probe/
+
+# Results pulled from CI by scripts/e2e.sh (the flat results/*.json files are tracked)
+results/results-*/
+
 # Never commit local secrets
 .env
 .env.*
