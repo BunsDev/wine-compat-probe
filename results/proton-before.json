@@ -1,0 +1,648 @@
+{
+  "meta": {
+    "args": [
+      "-workarounds",
+      "none",
+      "-out",
+      "Z:/home/runner/work/wine-compat-probe/wine-compat-probe/results/proton-before.json",
+      "-text"
+    ],
+    "schema": "wine-compat-probe/1",
+    "timestamp": "2026-10-24T22:58:48Z",
+    "tool": "probe/0.1.0",
+    "total_ms": 679,
+    "workarounds": null
+  },
+  "sections": {
+    "apis": {
+      "_counts": {
+        "status": "ok",
+        "value": {
+          "checked": 71,
+          "missing_dll": 9,
+          "missing_export": 3,
+          "present": 59
+        }
+      },
+      "advapi32!RegGetValueW": {
+        "status": "ok",
+        "value": true
+      },
+      "advapi32!SystemFunction036": {
+        "status": "ok",
+        "value": true
+      },
+      "api-ms-win-core-synch-l1-2-0!WaitOnAddress": {
+        "status": "ok",
+        "value": true
+      },
+      "api-ms-win-core-winrt-l1-1-0!RoInitialize": {
+        "status": "ok",
+        "value": true
+      },
+      "bcrypt!BCryptGenRandom": {
+        "status": "ok",
+        "value": true
+      },
+      "bcrypt!BCryptOpenAlgorithmProvider": {
+        "status": "ok",
+        "value": true
+      },
+      "combase!RoGetActivationFactory": {
+        "status": "ok",
+        "value": true
+      },
+      "combase!RoInitialize": {
+        "status": "ok",
+        "value": true
+      },
+      "crypt32!CertOpenStore": {
+        "status": "ok",
+        "value": true
+      },
+      "d3d11!D3D11CreateDevice": {
+        "note": "dll not loadable: Failed to load d3d11.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "d3d11!D3D11On12CreateDevice": {
+        "note": "dll not loadable: Failed to load d3d11.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "d3d12!D3D12CreateDevice": {
+        "note": "dll not loadable: Failed to load d3d12.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "d3d12!D3D12EnableExperimentalFeatures": {
+        "note": "dll not loadable: Failed to load d3d12.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "d3d12!D3D12GetDebugInterface": {
+        "note": "dll not loadable: Failed to load d3d12.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "d3d12core!D3D12GetInterface": {
+        "status": "ok",
+        "value": true
+      },
+      "d3d9!Direct3DCreate9Ex": {
+        "note": "dll not loadable: Failed to load d3d9.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "dinput8!DirectInput8Create": {
+        "status": "ok",
+        "value": true
+      },
+      "dxgi!CreateDXGIFactory1": {
+        "note": "dll not loadable: Failed to load dxgi.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "dxgi!CreateDXGIFactory2": {
+        "note": "dll not loadable: Failed to load dxgi.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "dxgi!DXGIGetDebugInterface1": {
+        "note": "dll not loadable: Failed to load dxgi.dll: Module not found.",
+        "status": "unsupported"
+      },
+      "hid!HidD_GetAttributes": {
+        "status": "ok",
+        "value": true
+      },
+      "iphlpapi!GetAdaptersAddresses": {
+        "status": "ok",
+        "value": true
+      },
+      "iphlpapi!IcmpSendEcho2Ex": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!CreateFile2": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!GetFinalPathNameByHandleW": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!GetLogicalProcessorInformationEx": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!GetProcessMitigationPolicy": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!GetSystemCpuSetInformation": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!GetSystemTimePreciseAsFileTime": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!GetThreadDescription": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!GetTickCount64": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!IsWow64Process2": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!MapViewOfFile3": {
+        "note": "export missing",
+        "status": "unsupported"
+      },
+      "kernel32!PrefetchVirtualMemory": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!QueryUnbiasedInterruptTime": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!SetProcessMitigationPolicy": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!SetThreadDescription": {
+        "status": "ok",
+        "value": true
+      },
+      "kernel32!VirtualAlloc2": {
+        "note": "export missing",
+        "status": "unsupported"
+      },
+      "kernel32!WaitOnAddress": {
+        "note": "export missing",
+        "status": "unsupported"
+      },
+      "kernelbase!PathCchCanonicalizeEx": {
+        "status": "ok",
+        "value": true
+      },
+      "mmdevapi!ActivateAudioInterfaceAsync": {
+        "status": "ok",
+        "value": true
+      },
+      "msvcp140!_Xtime_get_ticks": {
+        "status": "ok",
+        "value": true
+      },
+      "ntdll!NtQueryInformationProcess": {
+        "status": "ok",
+        "value": true
+      },
+      "ntdll!NtQuerySystemInformation": {
+        "status": "ok",
+        "value": true
+      },
+      "ntdll!RtlGetDeviceFamilyInfoEnum": {
+        "status": "ok",
+        "value": true
+      },
+      "ntdll!RtlGetVersion": {
+        "status": "ok",
+        "value": true
+      },
+      "ntdll!wine_get_version": {
+        "status": "ok",
+        "value": true
+      },
+      "ole32!CoCreateInstance": {
+        "status": "ok",
+        "value": true
+      },
+      "opengl32!wglGetProcAddress": {
+        "status": "ok",
+        "value": true
+      },
+      "powrprof!PowerGetActiveScheme": {
+        "status": "ok",
+        "value": true
+      },
+      "setupapi!SetupDiGetClassDevsW": {
+        "status": "ok",
+        "value": true
+      },
+      "shcore!GetDpiForMonitor": {
+        "status": "ok",
+        "value": true
+      },
+      "shcore!SetProcessDpiAwareness": {
+        "status": "ok",
+        "value": true
+      },
+      "shell32!SHGetKnownFolderPath": {
+        "status": "ok",
+        "value": true
+      },
+      "ucrtbase!_initialize_onexit_table": {
+        "status": "ok",
+        "value": true
+      },
+      "user32!EnumDisplayMonitors": {
+        "status": "ok",
+        "value": true
+      },
+      "user32!GetDpiForWindow": {
+        "status": "ok",
+        "value": true
+      },
+      "user32!GetRawInputDeviceList": {
+        "status": "ok",
+        "value": true
+      },
+      "user32!SetProcessDpiAwarenessContext": {
+        "status": "ok",
+        "value": true
+      },
+      "vcruntime140!memcpy": {
+        "status": "ok",
+        "value": true
+      },
+      "vcruntime140_1!__CxxFrameHandler4": {
+        "status": "ok",
+        "value": true
+      },
+      "vulkan-1!vkCreateInstance": {
+        "status": "ok",
+        "value": true
+      },
+      "vulkan-1!vkEnumerateInstanceVersion": {
+        "status": "ok",
+        "value": true
+      },
+      "winhttp!WinHttpOpen": {
+        "status": "ok",
+        "value": true
+      },
+      "winhttp!WinHttpWebSocketCompleteUpgrade": {
+        "status": "ok",
+        "value": true
+      },
+      "winmm!timeBeginPeriod": {
+        "status": "ok",
+        "value": true
+      },
+      "ws2_32!GetAddrInfoExW": {
+        "status": "ok",
+        "value": true
+      },
+      "ws2_32!WSAStartup": {
+        "status": "ok",
+        "value": true
+      },
+      "xaudio2_9!XAudio2Create": {
+        "status": "ok",
+        "value": true
+      },
+      "xinput1_3!XInputGetState": {
+        "status": "ok",
+        "value": true
+      },
+      "xinput1_4!XInputGetState": {
+        "status": "ok",
+        "value": true
+      }
+    },
+    "files": {
+      "case_insensitive_open": {
+        "duration_ms": 0,
+        "note": "created Probe-Case.TXT, found probe-case.txt",
+        "status": "ok",
+        "value": true
+      },
+      "file_lock_exclusion": {
+        "duration_ms": 0,
+        "note": "second lock rejected with 0x00000021 Lock violation.",
+        "status": "ok",
+        "value": true
+      },
+      "final_path_name": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "drive": "C",
+          "has_nt_prefix": true
+        }
+      },
+      "long_path": {
+        "duration_ms": 1,
+        "status": "ok",
+        "value": {
+          "path_length": 424
+        }
+      },
+      "memory_mapped_file": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": true
+      },
+      "registry_hkcu_roundtrip": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "created_new_key": true
+        }
+      },
+      "symlink_unprivileged": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": true
+      },
+      "temp_dir": {
+        "status": "ok",
+        "value": "C:\\users\\[user]\\AppData\\Local\\Temp"
+      },
+      "volume_info": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "case_preserved_names": true,
+          "case_sensitive_search": false,
+          "filesystem": "NTFS",
+          "flags": "0x0000008A",
+          "max_component_length": 255,
+          "root": "C:\\",
+          "unicode_on_disk": false
+        }
+      },
+      "well_known_paths": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "program_files": "C:\\Program Files",
+          "program_files_x86_set": true,
+          "system32_kernel32_exists": true,
+          "syswow64_kernel32_exists": true,
+          "userprofile_set": true,
+          "windir": "C:\\windows"
+        }
+      },
+      "write_read_roundtrip": {
+        "duration_ms": 1,
+        "status": "ok",
+        "value": 25
+      }
+    },
+    "graphics": {
+      "current_display_mode": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "bits_per_pixel": 32,
+          "height": 1024,
+          "refresh_hz": 0,
+          "width": 1280
+        }
+      },
+      "d3d11_device": {
+        "duration_ms": 22,
+        "note": "d3d11.dll or D3D11CreateDevice missing",
+        "status": "unsupported"
+      },
+      "d3d12_device": {
+        "duration_ms": 19,
+        "note": "d3d12.dll or D3D12CreateDevice missing",
+        "status": "unsupported"
+      },
+      "display_devices": {
+        "duration_ms": 15,
+        "status": "ok",
+        "value": {
+          "active": 1,
+          "count": 1,
+          "primary_adapter": "Wine Adapter",
+          "primary_device": "\\\\.\\DISPLAY1"
+        }
+      },
+      "dxgi_adapters": {
+        "duration_ms": 10,
+        "note": "dxgi.dll or CreateDXGIFactory1 missing",
+        "status": "unsupported"
+      },
+      "vulkan": {
+        "duration_ms": 31,
+        "status": "ok",
+        "value": {
+          "devices": [
+            {
+              "api_version": "1.4.318",
+              "device_name": "llvmpipe (LLVM 20.1.2, 256 bits)",
+              "device_type": "cpu",
+              "driver_version": 104865800,
+              "vendor": "",
+              "vendor_id": "0x0005"
+            }
+          ],
+          "instance_api_version": "1.3.275",
+          "physical_device_count": 1
+        }
+      }
+    },
+    "network": {
+      "adapters": {
+        "duration_ms": 6,
+        "status": "ok",
+        "value": {
+          "count": 4
+        }
+      },
+      "dns_resolve": {
+        "duration_ms": 11,
+        "status": "ok",
+        "value": {
+          "address_count": 4,
+          "host": "example.com",
+          "ipv4": 2,
+          "ipv6": 2
+        }
+      },
+      "icmp_echo": {
+        "duration_ms": 1,
+        "error": "IcmpSendEcho: 0x00000005 Access denied.",
+        "status": "fail"
+      },
+      "reachability": {
+        "duration_ms": 0,
+        "error": "icmp_echo failed and the tcp-reachability workaround is disabled",
+        "status": "fail"
+      },
+      "tcp_connect_443": {
+        "duration_ms": 26,
+        "status": "ok",
+        "value": "example.com:443"
+      },
+      "udp_bind_loopback": {
+        "duration_ms": 5,
+        "error": "listen udp4 127.0.0.1:0: wsaioctl: winapi error #10045",
+        "status": "fail"
+      },
+      "winhttp_get": {
+        "duration_ms": 109,
+        "status": "ok",
+        "value": {
+          "status_code": 200,
+          "url": "https://example.com/"
+        }
+      },
+      "winsock_startup": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "high_version": "2.2",
+          "version": "2.2"
+        }
+      }
+    },
+    "os": {
+      "get_version_ex": {
+        "duration_ms": 0,
+        "note": "subject to the manifest-based version lie on Windows 8.1 and later",
+        "status": "ok",
+        "value": {
+          "build": 19045,
+          "major": 10,
+          "minor": 0,
+          "platform_id": 2,
+          "string": "10.0.19045"
+        }
+      },
+      "logical_drives": {
+        "duration_ms": 1,
+        "status": "ok",
+        "value": [
+          "C",
+          "Z"
+        ]
+      },
+      "native_system_info": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "allocation_granularity": 65536,
+          "architecture": "amd64",
+          "page_size": 4096,
+          "processors": 4
+        }
+      },
+      "registry_current_version": {
+        "duration_ms": 1,
+        "status": "ok",
+        "value": {
+          "current_build": "19045",
+          "current_build_number": "19045",
+          "current_major_version_number": "10",
+          "current_minor_version_number": "0",
+          "display_version": "21H1",
+          "edition_id": "Professional",
+          "installation_type": "Client",
+          "product_name": "Windows 10 Pro",
+          "release_id": "2009",
+          "ubr": "5796"
+        }
+      },
+      "rtl_get_version": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "build": 19045,
+          "major": 10,
+          "minor": 0,
+          "platform_id": 2,
+          "string": "10.0.19045"
+        }
+      },
+      "system_directory": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": "C:\\windows\\system32"
+      },
+      "system_dpi": {
+        "duration_ms": 24,
+        "status": "ok",
+        "value": 96
+      },
+      "user_locale": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": "en-US"
+      },
+      "version": {
+        "duration_ms": 0,
+        "source": "GetVersionExW",
+        "status": "ok",
+        "value": {
+          "build": 19045,
+          "major": 10,
+          "minor": 0,
+          "platform_id": 2,
+          "string": "10.0.19045"
+        }
+      },
+      "windows_directory": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": "C:\\windows"
+      },
+      "wow64_machines": {
+        "duration_ms": 1,
+        "status": "ok",
+        "value": {
+          "native_machine": "amd64",
+          "process_machine": "none (not wow64)"
+        }
+      }
+    },
+    "runtime": {
+      "classification": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": "proton"
+      },
+      "env_hints": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "PROTON_LOG": true,
+          "STEAM_COMPAT_CLIENT_INSTALL_PATH": true,
+          "STEAM_COMPAT_DATA_PATH": true,
+          "STEAM_COMPAT_TOOL_PATHS": false,
+          "SteamAppId": false,
+          "SteamGameId": false,
+          "WINEDLLOVERRIDES": true,
+          "WINELOADER": true,
+          "WINEPREFIX": true
+        }
+      },
+      "wine_build_id": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": "wine-11.0 (Staging)"
+      },
+      "wine_host": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": {
+          "release": "6.17.0-1022-azure",
+          "sysname": "Linux"
+        }
+      },
+      "wine_version": {
+        "duration_ms": 0,
+        "status": "ok",
+        "value": "11.0"
+      }
+    }
+  },
+  "summary": {
+    "fail": 3,
+    "ok": 95,
+    "total": 113,
+    "unsupported": 15
+  }
+}

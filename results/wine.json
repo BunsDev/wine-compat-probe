@@ -8,9 +8,9 @@
       "-text"
     ],
     "schema": "wine-compat-probe/1",
-    "timestamp": "2026-10-24T22:51:38Z",
+    "timestamp": "2026-10-24T22:58:39Z",
     "tool": "probe/0.1.0",
-    "total_ms": 890,
+    "total_ms": 841,
     "workarounds": [
       "d3d-warp-fallback",
       "rtl-version",
@@ -405,7 +405,7 @@
         }
       },
       "d3d11_device": {
-        "duration_ms": 197,
+        "duration_ms": 202,
         "status": "ok",
         "value": {
           "driver_type": "hardware",
@@ -414,7 +414,7 @@
         }
       },
       "d3d12_device": {
-        "duration_ms": 165,
+        "duration_ms": 138,
         "status": "ok",
         "value": "feature level 11_0 device created"
       },
@@ -429,7 +429,7 @@
         }
       },
       "dxgi_adapters": {
-        "duration_ms": 126,
+        "duration_ms": 124,
         "status": "ok",
         "value": {
           "adapters": [
@@ -447,7 +447,7 @@
         }
       },
       "vulkan": {
-        "duration_ms": 12,
+        "duration_ms": 8,
         "status": "ok",
         "value": {
           "devices": [
@@ -467,7 +467,7 @@
     },
     "network": {
       "adapters": {
-        "duration_ms": 4,
+        "duration_ms": 3,
         "status": "ok",
         "value": {
           "count": 4
@@ -489,14 +489,14 @@
         "status": "fail"
       },
       "reachability": {
-        "duration_ms": 3,
+        "duration_ms": 5,
         "source": "tcp_fallback",
         "status": "ok",
         "value": "1.1.1.1:443",
         "workaround": "tcp-reachability"
       },
       "tcp_connect_443": {
-        "duration_ms": 3,
+        "duration_ms": 7,
         "status": "ok",
         "value": "example.com:443"
       },
@@ -506,7 +506,7 @@
         "status": "fail"
       },
       "winhttp_get": {
-        "duration_ms": 93,
+        "duration_ms": 106,
         "status": "ok",
         "value": {
           "status_code": 200,
@@ -554,7 +554,7 @@
         }
       },
       "registry_current_version": {
-        "duration_ms": 1,
+        "duration_ms": 0,
         "status": "ok",
         "value": {
           "current_build": "19043",

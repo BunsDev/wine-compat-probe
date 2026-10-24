@@ -8,9 +8,9 @@
       "-text"
     ],
     "schema": "wine-compat-probe/1",
-    "timestamp": "2026-10-24T22:51:02Z",
+    "timestamp": "2026-10-24T22:58:15Z",
     "tool": "probe/0.1.0",
-    "total_ms": 1902,
+    "total_ms": 1899,
     "workarounds": [
       "d3d-warp-fallback",
       "rtl-version",
@@ -335,7 +335,7 @@
         }
       },
       "long_path": {
-        "duration_ms": 7,
+        "duration_ms": 6,
         "status": "ok",
         "value": {
           "path_length": 422
@@ -414,7 +414,7 @@
         }
       },
       "d3d12_device": {
-        "duration_ms": 9,
+        "duration_ms": 10,
         "status": "ok",
         "value": "feature level 11_0 device created"
       },
@@ -483,19 +483,19 @@
         }
       },
       "icmp_echo": {
-        "duration_ms": 1799,
+        "duration_ms": 1790,
         "error": "IcmpSendEcho: 0x00002B02 Error due to lack of resources.",
         "status": "fail"
       },
       "reachability": {
-        "duration_ms": 2,
+        "duration_ms": 5,
         "source": "tcp_fallback",
         "status": "ok",
         "value": "1.1.1.1:443",
         "workaround": "tcp-reachability"
       },
       "tcp_connect_443": {
-        "duration_ms": 3,
+        "duration_ms": 7,
         "status": "ok",
         "value": "example.com:443"
       },
@@ -505,7 +505,7 @@
         "value": true
       },
       "winhttp_get": {
-        "duration_ms": 31,
+        "duration_ms": 38,
         "status": "ok",
         "value": {
           "status_code": 200,
@@ -553,7 +553,7 @@
         }
       },
       "registry_current_version": {
-        "duration_ms": 0,
+        "duration_ms": 1,
         "status": "ok",
         "value": {
           "current_build": "26100",
