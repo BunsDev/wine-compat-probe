@@ -49,7 +49,9 @@ var archNames = map[uint16]string{
 	12: `arm64`,
 }
 
+// IMAGE_FILE_MACHINE values; 0 means the process is not running under WoW64.
 var machineNames = map[uint16]string{
+	0x0000: `none (not wow64)`,
 	0x014c: `i386`,
 	0x8664: `amd64`,
 	0x01c4: `armnt`,
